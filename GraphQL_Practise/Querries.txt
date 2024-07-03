@@ -1,0 +1,17 @@
+query GetPersons($pageNo: Int!, $pageSize: Int!,$search:String!) {
+    getPersons(
+        where: {
+           or:[
+            {name:{contains:$search}},
+            {description:{contains:$search}}
+           ]
+        }
+        order: { personKey: DESC },
+        paginations: { pageNo: $pageNo, pageSize: $pageSize }
+    ) {
+        personKey
+        name
+        description
+        age
+    }
+}
