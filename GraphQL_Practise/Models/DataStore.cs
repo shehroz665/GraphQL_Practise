@@ -35,7 +35,7 @@
         {
             return new List<Products>()
             {
-         new Products { ProductId = 1, Name = "School Bag", CategoryKey = 1, Description = null, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now },
+            new Products { ProductId = 1, Name = "School Bag", CategoryKey = 1, Description = null, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now },
             new Products { ProductId = 2, Name = "Running Shoes", CategoryKey = 2, Description = null, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now },
             new Products { ProductId = 3, Name = "T-Shirt", CategoryKey = 3, Description = null, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now },
             new Products { ProductId = 4, Name = "Leather Belt", CategoryKey = 4, Description = null, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now },
@@ -50,6 +50,24 @@
             new Products { ProductId = 13, Name = "Jeans", CategoryKey = 3, Description = null, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now },
             new Products { ProductId = 14, Name = "Necklace", CategoryKey = 4, Description = null, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now },
             new Products { ProductId = 15, Name = "Headphones", CategoryKey = 5, Description = null, CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now }
+            };
+        }
+
+        public async Task<List<Person>> personStore()
+        {
+            return new List<Person>()
+            {
+                new Person() {PersonKey=1,Name="Ali",Description="ABC",Age=25},
+                new Person() {PersonKey=2,Name="Jawad",Description="DEFABC",Age=26},
+                new Person() {PersonKey=3,Name="Wahab",Description="REF",Age=18},
+                new Person() {PersonKey=4,Name="Shehroz Ali",Description="QWE",Age=15},
+                new Person() {PersonKey=5,Name="Waqas",Description="FDG",Age=5},
+                new Person() {PersonKey=6,Name="Waqas",Description="AD",Age=40},
+                new Person() {PersonKey=7,Name="Shehroz Ali",Description="QWE",Age=15},
+                new Person() {PersonKey=8,Name="Waqas",Description="FDG",Age=5},
+                new Person() {PersonKey=9,Name="Waqas",Description="AD",Age=40},
+                new Person() {PersonKey=10,Name="Waqas",Description="FDG",Age=5},
+                new Person() {PersonKey=11,Name="Waqas",Description="AD",Age=40}
             };
         }
     }

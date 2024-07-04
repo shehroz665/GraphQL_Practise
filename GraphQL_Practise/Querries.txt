@@ -104,7 +104,27 @@ query GetOffsetPaginatedPerson($skip: Int!, $take: Int!,$col: Int!,$search:Strin
 
 }
 
-
+---------------------------User Pagination-------------------
+query GetUsers($skip: Int!, $take: Int!,$search:String!,$direction:String!,$columnNo:Int!) {
+  getAllUsers(
+   skip: $skip,
+   take: $take,
+   sorting: {dir:$direction,col:$columnNo},
+   search: $search
+   ) {
+    items {
+      userKey
+      userName
+      userEmail
+      createdOn
+      updatedOn
+    }
+    pageInfo{
+      hasNextPage
+    }
+    totalCount
+  }
+}
 
 
 

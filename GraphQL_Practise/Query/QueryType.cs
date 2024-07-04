@@ -1,68 +1,73 @@
 ﻿using GraphQL_Practise.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GraphQL_Practise.Query
 {
+   
     public class QueryType
     {
+        private readonly DataStore _dataStore;
+
+        public QueryType()
+        {
+            _dataStore = new DataStore();
+        }
+
+        [UseOffsetPaging(DefaultPageSize =10,IncludeTotalCount=true)]
         [UseProjection]
         [UseSorting]
         [UseFiltering]
-        public List<Person> getPersons(Pagination paginations)
+        public List<Users> getAllUsers(Sorting sorting,string search,[Service] ApplicationDbContext _db)
         {
-
-            List<Person> person= new List<Person>()
+            var res= _db.User.ToList();
+            if (!string.IsNullOrEmpty(search))
             {
-                new Person() {PersonKey=1,Name="Ali",Description="ABC",Age=25},
-                new Person() {PersonKey=2,Name="Jawad",Description="DEFABC",Age=26},
-                new Person() {PersonKey=3,Name="Wahab",Description="REF",Age=18},
-                new Person() {PersonKey=4,Name="Shehroz Ali",Description="QWE",Age=15},
-                new Person() {PersonKey=5,Name="Waqas",Description="FDG",Age=5},
-                new Person() {PersonKey=6,Name="Waqas",Description="AD",Age=40},
-                new Person() {PersonKey=7,Name="Shehroz Ali",Description="QWE",Age=15},
-                new Person() {PersonKey=8,Name="Waqas",Description="FDG",Age=5},
-                new Person() {PersonKey=9,Name="Waqas",Description="AD",Age=40},
-                new Person() {PersonKey=10,Name="Waqas",Description="FDG",Age=5},
-                new Person() {PersonKey=11,Name="Waqas",Description="AD",Age=40}
-            };
+             res= res.Where((x) => x.UserName.Contains(search,StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            if (sorting != null)
+            {
+                bool isAsc=string.Equals("ASC",sorting.dir,StringComparison.OrdinalIgnoreCase);
+                if (sorting.col == 0)
+                {
+                    res = isAsc ? res.OrderBy(x => x.UserKey).ToList() : res.OrderByDescending(x => x.UserKey).ToList();
+                }
+                else if (sorting.col == 1)
+                {
+                    res= isAsc ? res.OrderBy(x=> x.UserName).ToList() : res.OrderByDescending(x=> x.UserName).ToList();
+                }
+                else if(sorting.col == 2) 
+                {
+                    res = isAsc ? res.OrderBy(x => x.UserEmail).ToList() : res.OrderByDescending(x => x.UserEmail).ToList();
+                }
+            }
+            return res;
+        }
+
+        [UseProjection]
+        [UseSorting]
+        [UseFiltering]
+        public async Task<List<Person>> getPersons(Pagination paginations)
+        {
+            var person = await _dataStore.personStore();
             int offset = (paginations.pageNo - 1) * paginations.pageSize;
             return person.Skip(offset).Take(paginations.pageSize).ToList();
-
-
         }
 
         [UsePaging(DefaultPageSize =10,IncludeTotalCount =true)]
 
-        public List<Person> getPaginatedPerson()
+        public async Task<List<Person>> getPaginatedPerson()
         {
-            return new List<Person>()
-            {
-                new Person() {PersonKey=1,Name="Ali",Description="ABC",Age=25},
-                new Person() {PersonKey=2,Name="Jawad",Description="DEFABC",Age=26},
-                new Person() {PersonKey=3,Name="Wahab",Description="REF",Age=18},
-                new Person() {PersonKey=4,Name="Shehroz Ali",Description="QWE",Age=15},
-                new Person() {PersonKey=5,Name="Waqas",Description="FDG",Age=5},
-                new Person() {PersonKey=6,Name="Waqas",Description="AD",Age=40}
-            };
-
-          
-
+            return await _dataStore.personStore();
         }
 
         [UseOffsetPaging(DefaultPageSize = 10, IncludeTotalCount = true)]
         [UseProjection]
         [UseSorting]
         [UseFiltering]
-        public List<Person> getOffsetPaginatedPerson(Sorting sorting)
+        public async Task<List<Person>> getOffsetPaginatedPerson(Sorting sorting)
         {
-            List<Person> person=new List<Person>()
-            {
-                new Person() {PersonKey=1,Name="ali",Description="ABC",Age=25},
-                new Person() {PersonKey=2,Name="Jawad",Description="DEFABC",Age=26},
-                new Person() {PersonKey=3,Name="Wahab",Description="REF",Age=18},
-                new Person() {PersonKey=4,Name="Shehroz Ali",Description="QWE",Age=15},
-                new Person() {PersonKey=5,Name="Waqas",Description="FDG",Age=5},
-                new Person() {PersonKey=6,Name="Waqas",Description="AD",Age=40}
-            };
+            var person =await _dataStore.personStore();
             bool isAsc = string.Equals("ASC", sorting.dir, StringComparison.OrdinalIgnoreCase);
             if (sorting.col == 1)
             {
