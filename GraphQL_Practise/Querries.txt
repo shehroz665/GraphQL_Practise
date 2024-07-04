@@ -1,3 +1,4 @@
+-----------------------------Simple Pagination-----------------------------
 query GetPersons($pageNo: Int!, $pageSize: Int!,$search:String!) {
     getPersons(
         where: {
@@ -15,3 +16,98 @@ query GetPersons($pageNo: Int!, $pageSize: Int!,$search:String!) {
         age
     }
 }
+
+-----------------------------Cursor Pagination-----------------------------
+query{
+
+    getPaginatedPerson(first:3){
+        edges{
+            node{
+                personKey,
+                name
+            }
+            cursor
+        }
+        pageInfo{
+            endCursor
+        }
+        totalCount
+        
+    }
+}
+
+
+-----------------------------Offset Pagination-----------------------------
+
+---------------------------------------1-----------------------------------
+
+query GetOffsetPaginatedPerson($skip: Int!, $take: Int!,$search:String!,$direction:SortEnumType!) {
+  getOffsetPaginatedPerson(
+   skip: $skip,
+   take: $take,
+   where: {
+    or:[
+      {name:{contains:$search}},
+      {description:{contains:$search}}
+    ]
+   }
+   order: {
+    personKey:$direction
+   }
+   ) {
+    items {
+      personKey
+      name
+    }
+    pageInfo {
+      hasNextPage
+    }
+    totalCount
+  }
+}
+
+---------------------------------------2-----------------------------------
+
+query GetOffsetPaginatedPerson($skip: Int!, $take: Int!,$col: Int!,$search:String!,$direction:String!) {
+  getOffsetPaginatedPerson(
+   skip: $skip,
+   take: $take,
+   sorting: {dir:$direction,col:$col},
+   where: {
+    or:[
+      {name:{contains:$search}},
+      {description:{contains:$search}}
+    ]
+   }
+   ) {
+    items {
+      personKey
+      name
+    }
+    pageInfo {
+      hasNextPage
+    }
+    totalCount
+    
+  }
+}
+//Request
+{
+  "skip": 0,
+  "take": 10,
+  "col": 2,
+  "search": "",
+  "direction":"DESC"
+
+}
+
+
+
+
+
+
+
+
+
+
+
