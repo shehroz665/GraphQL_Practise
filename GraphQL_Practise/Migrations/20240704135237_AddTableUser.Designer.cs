@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GraphQLPractise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240704125222_AddTableProduct")]
-    partial class AddTableProduct
+    [Migration("20240704135237_AddTableUser")]
+    partial class AddTableUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,8 +65,9 @@ namespace GraphQLPractise.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");

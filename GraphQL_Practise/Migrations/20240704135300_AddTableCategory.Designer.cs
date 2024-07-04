@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GraphQLPractise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240704125233_AddTableCategory")]
+    [Migration("20240704135300_AddTableCategory")]
     partial class AddTableCategory
     {
         /// <inheritdoc />
@@ -65,8 +65,9 @@ namespace GraphQLPractise.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");

@@ -1,3 +1,6 @@
+-----------------------------Seed Data-----------------------------
+Add-Migration SeedUsersAndCategorysAndProducts
+update-database
 -----------------------------Simple Pagination-----------------------------
 query GetPersons($pageNo: Int!, $pageSize: Int!,$search:String!) {
     getPersons(

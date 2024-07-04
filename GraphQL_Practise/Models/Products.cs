@@ -10,7 +10,7 @@ namespace GraphQL_Practise.Models
         public int ProductId { get; set; }
 
         [Required]
-        public int Name { get; set; }
+        public string Name { get; set; }
         public int? CategoryKey { get; set; }
         public string? Description { get; set; }
         public DateTime? CreatedOn { get; set; }
